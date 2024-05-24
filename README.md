@@ -38,7 +38,7 @@ CORS Misconfig Finder is a tool designed to detect various CORS (Cross-Origin Re
 - `--thirdparty`: Third-party domain to test.
 - `--invalid-origin`: Invalid origin to test.
 
-### Example Command
+### Command
 To run the program with custom headers such as Cookie and Authorization, use the following command:
 
 ```sh
@@ -48,48 +48,24 @@ cargo run -- https://www.targetURL.com \
     --custom-headers "Authorization: Bearer token123\nAnother-Header: value" \
     --cookie "sessionId=abc123"
 ```
-
-You can also run the program with or without the --thirdparty and --invalid-origin arguments. The default values will be used if these arguments are not provided:
-
+### or
 ```sh
-cargo run -- https://target.com
-
+./cors_misconf_finder  <url>
 ```
 
-
-cargo run --: Runs the Rust program using Cargo.
-https://www.targetURL.com: The target URL to probe.
---thirdparty http://example-thirdparty.com: Sets the third-party domain to test.
---invalid-origin http://example-invalid-origin.com: Sets the invalid origin to test.
---custom-headers "Authorization: Bearer token123\nAnother-Header: value": Adds custom headers to the request. Note the \n is used to separate multiple headers.
---cookie "sessionId=abc123": Sets the Cookie header for the request.
-
-or 
-
-```sh
-./cors_misconf_finder https://target.com \
-    --thirdparty http://example-thirdparty.com \
-    --invalid-origin http://example-invalid-origin.com \
-    --custom-headers "Authorization: Bearer token123\nAnother-Header: value" \
-    --cookie "sessionId=abc123" \
-    --rate-limit 1000 \
-    --method GET \
-    --proxy http://127.0.0.1:8080 \
-    --output results.txt
-
-```
-
-Additional Notes
+____________________
+## Additional Notes
 Headers: Ensure to format the custom headers correctly, separating multiple headers with \n.
 Quotes: Use double quotes around the headers and cookie values to ensure they are interpreted correctly by the command line.
 Escape Characters: The \n escape sequence is necessary to denote a new line within a command-line argument, allowing you to specify multiple headers.
-License
+___________
+## License
 This project is licensed under the MIT License.
 
-Contributing
+## Contributing
 Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
 
-Contact
+## Contact
 For any queries or issues, please reach out to Mehrnoush at Mehrnoush.vaseghi@gmail.com.
 
 Thank you for using CORS Misconfig Finder! Your feedback and contributions are highly appreciated.
