@@ -1,0 +1,76 @@
+/target
+# Binaries for programs and scripts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Binaries for specific platforms
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Executable files
+*.out
+*.pyc
+*.pyo
+
+# Compilation files
+*.stackdump
+*.rlib
+*.rs.bk
+
+# Rust specific
+/target/
+**/*.rs.bk
+
+# If you are using the cargo package manager
+Cargo.lock
+
+# These are backup files created by rustfmt
+**/*.rs.bk
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# If you're using the IntelliJ IDEA Rust plugin or another IntelliJ IDE
+.idea/
+
+# If you're using Visual Studio Code
+.vscode/
+
+# If you're using Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# If you're using Eclipse
+.project
+.cproject
+.settings/
