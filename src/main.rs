@@ -4,7 +4,8 @@
  * Author: Mehrnoush. Mehrnoush.vaseghi@gmail.com | https://medium.com/@Mehrnoush | https://github.com/Mehrn0ush
  * Description: Detects CORS misconfigurations
  */
-use std::fs::File;
+
+ use std::fs::File;
 use std::io::Write;
 use std::time::Duration;
 use clap::{Arg, Command};
@@ -30,7 +31,7 @@ fn validate_headers(headers: &str) -> Result<(), String> {
 }
 
 fn validate_cookie(cookie: &str) -> Result<(), String> {
-    if cookie.contains("\n") {
+    if cookie.contains('\n') {
         return Err("Cookie should not contain newline characters".to_string());
     }
     Ok(())
@@ -85,10 +86,10 @@ async fn scan(url: &str, custom_headers: Option<&str>, cookie: Option<&str>, pro
     let bypass_dict = vec![
         ("Reflected Origin", &reflected_origin),
         ("Trusted Subdomains", &trusted_subdomains),
-        ("Regex pattern bypass", &regex_bypass),
+        ("Regexp bypass", &regex_bypass),
         ("Null Origin", &null_origin),
         ("Breaking TLS", &breaking_tls),
-        ("Advanced Regex pattern bypass", &advanced_regex_bypass),
+        ("Advance Regexp bypass", &advanced_regex_bypass),
         ("Pre-domain Bypass", &pre_domain_bypass),
         ("Post-domain Bypass", &post_domain_bypass),
         ("Backtick Bypass", &backtick_bypass),
@@ -261,19 +262,19 @@ async fn main() {
             .index(1)
             .required(true)
             .help("Target URL to probe")
-            .value_parser(clap::builder::ValueParser::new(validate_url)))
+            .value_parser(clap::value_parser!(String)))
         .arg(Arg::new("custom_headers")
             .short('c')
             .long("custom-headers")
             .num_args(1)
             .help("Custom headers to include in the requests (format: 'Header1: value1\\nHeader2: value2')")
-            .value_parser(clap::builder::ValueParser::new(validate_headers)))
+            .value_parser(clap::value_parser!(String)))
         .arg(Arg::new("cookie")
             .short('k')
             .long("cookie")
             .num_args(1)
             .help("Cookie to include in the requests")
-            .value_parser(clap::builder::ValueParser::new(validate_cookie)))
+            .value_parser(clap::value_parser!(String)))
         .arg(Arg::new("rate_limit")
             .short('r')
             .long("rate-limit")
@@ -285,13 +286,13 @@ async fn main() {
             .long("method")
             .num_args(1)
             .help("HTTP method to use (default: GET)")
-            .value_parser(clap::builder::ValueParser::new(validate_method)))
+            .value_parser(clap::value_parser!(String)))
         .arg(Arg::new("proxy")
             .short('p')
             .long("proxy")
             .num_args(1)
             .help("Proxy URL to use for the requests")
-            .value_parser(clap::builder::ValueParser::new(validate_proxy)))
+            .value_parser(clap::value_parser!(String)))
         .arg(Arg::new("silent")
             .short('s')
             .long("silent")
@@ -306,25 +307,26 @@ async fn main() {
             .short('o')
             .long("output")
             .num_args(1)
-            .help("Output file to save the results"))
+            .help("Output file to save the results")
+            .value_parser(clap::value_parser!(String)))
         .arg(Arg::new("thirdparty")
             .long("thirdparty")
             .num_args(1)
-            .required(true)
+            .default_value("http://example-thirdparty.com")
             .help("Third party domain to test")
-            .value_parser(clap::builder::ValueParser::new(validate_url)))
+            .value_parser(clap::value_parser!(String)))
         .arg(Arg::new("invalid_origin")
             .long("invalid-origin")
             .num_args(1)
-            .required(true)
+            .default_value("http://example-invalid-origin.com")
             .help("Invalid origin to test")
-            .value_parser(clap::builder::ValueParser::new(validate_url)))
+            .value_parser(clap::value_parser!(String)))
         .get_matches();
 
     let url = matches.get_one::<String>("url").unwrap();
     let custom_headers = matches.get_one::<String>("custom_headers").map(String::as_str);
     let cookie = matches.get_one::<String>("cookie").map(String::as_str);
-    let rate_limit = matches.get_one::<String>("rate_limit").map(|s| s.parse::<u64>().unwrap());
+    let rate_limit = matches.get_one::<u64>("rate_limit").copied();
     let method_default = String::from("GET");
     let method = matches.get_one::<String>("method").unwrap_or(&method_default);
     let proxy = matches.get_one::<String>("proxy").map(String::as_str);
